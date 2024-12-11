@@ -1,7 +1,28 @@
-<h1>Input your text below: </h1>
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+</head>
+<body>
+    <h1>Input your text below:</h1>
+    <form method="POST" action="counter">
+        {% csrf_token %}
+        <textarea name="words" rows="25" cols="100"></textarea>
+        <input type="submit"/>
 
-<form method="POST" action="counter">
-    {% csrf_token %}
-    <textarea name="words" rows="25" cols="100"></textarea>
-    <input type="submit"/>
-</form>
+    </form>
+    {% for feature in features %}
+    {% if feature.name == "Fast" %}
+    <h2>This is fast</h2>
+    {% else %}
+    <h2>Not fast</h2>
+    {% endif %}
+    <h1>{{feature.name}}</h1>
+    <h1>{{feature.details}}</h1>
+    {% endfor %}
+</body>
+</html>
