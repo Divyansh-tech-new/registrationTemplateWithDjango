@@ -15,12 +15,13 @@ def index(request):
     return render(request, 'index.html', context)
 
 def counter(request):
-    words = request.POST['words']
-    nWords = len(words.split())
-    context = {
-        'nWords': nWords
-    }
-    return render(request, 'counter.html', context)
+    posts=[1,2,3,4,5,'tim','tom','john']
+    # words = request.POST['words']
+    # nWords = len(words.split())
+    # context = {
+    #     'nWords': nWords
+    # }
+    return render(request, 'counter.html', {'posts':posts})
 
 def register(request):
     if request.method == 'POST':
@@ -46,3 +47,26 @@ def register(request):
             return redirect('register')
     
     return render(request, 'register.html')
+
+def login(request):
+    if request.method=='POST':
+        username = request.POST['username']
+        # email = request.POST['email']
+        password = request.POST['password']
+
+        user=auth.authenticate(username=username,password=password)
+
+        if user is not None:
+            auth.login(request,user)
+            return redirect('/')
+        else:
+            messages.info(request,'Credentials Invalid')
+            return redirect('login')
+    else:    
+        return render (request,'login.html')
+def logout(request):
+    auth.logout(request)
+    return redirect('/')
+
+def post(request, pk):
+    return render(request,'post.html',{'pk':pk})
